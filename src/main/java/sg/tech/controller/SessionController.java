@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sg.tech.dto.SessionDTO;
+import sg.tech.dto.SessionRequest;
 import sg.tech.entity.Session;
 import sg.tech.service.SessionService;
 
@@ -16,7 +17,7 @@ public class SessionController {
     private final SessionService sessionService;
 
     @PostMapping
-    public ResponseEntity<SessionDTO> createSession(@RequestBody SessionDTO request) {
+    public ResponseEntity<SessionDTO> createSession(@RequestBody SessionRequest request) {
         Session session = request.createSession();
         Session sessionDB = sessionService.createSession(session);
         return new ResponseEntity<>(SessionDTO.from(sessionDB), HttpStatus.CREATED);
