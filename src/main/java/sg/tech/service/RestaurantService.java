@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sg.tech.dto.RestaurantDTO;
 import sg.tech.entity.Restaurant;
 import sg.tech.entity.Session;
+import sg.tech.exception.ResourceNotFoundException;
 import sg.tech.repository.RestaurantRepository;
 import sg.tech.repository.SessionRepository;
 
@@ -22,7 +23,7 @@ public class RestaurantService {
     private final SessionRepository sessionRepository;
 
     public Restaurant addRestaurantToSession(RestaurantDTO dto) {
-        Session session = sessionRepository.findById(dto.getSessionId()).orElseThrow(null);
+        Session session = sessionRepository.findById(dto.getSessionId()).orElseThrow(ResourceNotFoundException::new);
         Restaurant restaurant = new Restaurant();
         restaurant.setRestaurantName(dto.getRestaurantName());
         restaurant.setSession(session);

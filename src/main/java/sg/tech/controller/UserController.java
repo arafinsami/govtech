@@ -1,8 +1,10 @@
 package sg.tech.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sg.tech.dto.UserDTO;
 import sg.tech.entity.AppUser;
@@ -16,7 +18,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO request) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         AppUser user = request.createUser();
         AppUser userDB = userService.createUser(user);
         return new ResponseEntity<>(UserDTO.from(userDB), HttpStatus.CREATED);

@@ -1,5 +1,7 @@
 package sg.tech.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import sg.tech.entity.Restaurant;
@@ -8,8 +10,10 @@ import sg.tech.entity.Restaurant;
 @NoArgsConstructor
 public class RestaurantDTO {
 
+    @NotBlank
     private String restaurantName;
 
+    @NotNull
     private Long sessionId;
 
     public static RestaurantDTO from(Restaurant restaurant) {

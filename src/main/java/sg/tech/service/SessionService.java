@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sg.tech.entity.Session;
 import sg.tech.entity.SessionStatus;
+import sg.tech.exception.ResourceNotFoundException;
 import sg.tech.repository.SessionRepository;
 
 @Service
@@ -20,7 +21,7 @@ public class SessionService {
     }
 
     public Session getSessionById(Long sessionId) {
-        return sessionRepository.findById(sessionId).orElse(null);
+        return sessionRepository.findById(sessionId).orElseThrow(ResourceNotFoundException::new);
     }
 
     public void endSession(Long sessionId) {

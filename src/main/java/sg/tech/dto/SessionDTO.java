@@ -1,5 +1,6 @@
 package sg.tech.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import sg.tech.entity.Session;
@@ -14,10 +15,13 @@ public class SessionDTO {
 
     private Long id;
 
+    @NotNull
     private SessionStatus sessionStatus;
 
+    @NotNull
     private List<UserDTO> users;
 
+    @NotNull
     private RestaurantDTO restaurant;
 
     public static SessionDTO from(Session session) {

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sg.tech.entity.AppUser;
 import sg.tech.entity.Session;
+import sg.tech.exception.ResourceNotFoundException;
 import sg.tech.repository.UserRepository;
 
 @Service
@@ -19,11 +20,11 @@ public class UserService {
     }
 
     public AppUser getUserById(Long userId) {
-        return userRepository.findById(userId).orElse(null);
+        return userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
     }
 
     public AppUser addUserToSession(Long userId, Long sessionId) {
-        AppUser user = userRepository.findById(userId).orElse(null);
+        AppUser user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
         if (user != null) {
             Session session = user.getSession();
             if (session != null && session.getId().equals(sessionId)) {
@@ -38,7 +39,7 @@ public class UserService {
     }
 
     public void removeUserFromSession(Long userId) {
-        AppUser user = userRepository.findById(userId).orElse(null);
+        AppUser user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
         if (user != null) {
             user.setSession(null);
             userRepository.save(user);

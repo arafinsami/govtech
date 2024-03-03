@@ -1,5 +1,6 @@
 package sg.tech.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import sg.tech.entity.AppUser;
@@ -10,6 +11,7 @@ public class UserDTO {
 
     private Long id;
 
+    @NotBlank
     private String username;
 
     public static UserDTO from(AppUser user) {

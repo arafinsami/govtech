@@ -1,5 +1,6 @@
 package sg.tech.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import sg.tech.entity.Session;
@@ -11,6 +12,7 @@ public class SessionRequest {
 
     private Long id;
 
+    @NotNull
     private SessionStatus sessionStatus;
 
     public Session createSession() {
