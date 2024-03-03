@@ -1,7 +1,10 @@
 package sg.tech.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sg.tech.dto.UserDTO;
 import sg.tech.entity.AppUser;
 import sg.tech.service.UserService;
 
@@ -13,22 +16,28 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public AppUser createUser(@RequestBody AppUser user) {
-        return userService.createUser(user);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO request) {
+        AppUser user = request.createUser();
+        AppUser userDB = userService.createUser(user);
+        return new ResponseEntity<>(UserDTO.from(userDB), HttpStatus.CREATED);
     }
 
     @GetMapping("/{userId}")
-    public AppUser getUserById(@PathVariable Long userId) {
-        return userService.getUserById(userId);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
+        AppUser user = userService.getUserById(userId);
+        UserDTO dto = UserDTO.from(user);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{userId}/session/{sessionId}")
-    public void addUserToSession(@PathVariable Long userId, @PathVariable Long sessionId) {
-        userService.addUserToSession(userId, sessionId);
+    public ResponseEntity<UserDTO> addUserToSession(@PathVariable Long userId, @PathVariable Long sessionId) {
+        AppUser user = userService.addUserToSession(userId, sessionId);
+        return new ResponseEntity<>(UserDTO.from(user), HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}/session")
-    public void removeUserFromSession(@PathVariable Long userId) {
+    public ResponseEntity<?> removeUserFromSession(@PathVariable Long userId) {
         userService.removeUserFromSession(userId);
+        return new ResponseEntity<>("user removed from session with id:" + userId, HttpStatus.OK);
     }
 }

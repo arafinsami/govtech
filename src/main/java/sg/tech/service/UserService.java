@@ -22,19 +22,19 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public void addUserToSession(Long userId, Long sessionId) {
+    public AppUser addUserToSession(Long userId, Long sessionId) {
         AppUser user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             Session session = user.getSession();
             if (session != null && session.getId().equals(sessionId)) {
-                // User is already in the session
-                return;
+                return user;
             }
             session = new Session();
             session.setId(sessionId);
             user.setSession(session);
             userRepository.save(user);
         }
+        return user;
     }
 
     public void removeUserFromSession(Long userId) {
